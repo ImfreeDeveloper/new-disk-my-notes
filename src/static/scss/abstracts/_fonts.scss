@@ -1,0 +1,5 @@
+@include font-face('Montserrat', $path-font + '/Montserrat/Montserrat-Regular', $normal, normal, woff woff2);
+@include font-face('Montserrat', $path-font + '/Montserrat/Montserrat-Medium', $medium, normal, woff woff2);
+@include font-face('Montserrat', $path-font + '/Montserrat/Montserrat-SemiBold', $semibold, normal, woff woff2);
+@include font-face('Montserrat', $path-font + '/Montserrat/Montserrat-Bold', $bold, normal, woff woff2);
+@include font-face('Montserrat', $path-font + '/Montserrat/Montserrat-ExtraBold', $extraBold, normal, woff woff2);

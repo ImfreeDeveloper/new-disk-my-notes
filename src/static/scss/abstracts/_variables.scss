@@ -1,0 +1,35 @@
+$color-dark: #0A1F38;
+$color-dark-middle: #1B2F46;
+$color-dark-light: #2F4056;
+$color-gray: #9DA5AF;
+
+$color-green-dark: #819400;
+$color-green-middle: #97AB0D;
+$color-green: #A5BB0C;
+$color-green-light: #B1C909;
+
+$color-white: #FFFFFF;
+$color-red: #FF7461;
+
+$color-primary: $color-dark;
+$color-secondary: $color-green-light;
+$color-text: $color-white;
+
+
+// Font Family
+$baseFont: 'Montserrat', sans-serif;
+
+// Font Weight
+$normal: 400;
+$medium: 500;
+$semibold: 600;
+$bold: 700;
+$extraBold: 900;
+
+// Font Sizing
+$baseFontSize: 1.8rem;
+$baseLineHeight: 1.5;
+$headingLineHeight: 1.3;
+
+// Path
+$path-font: '/fonts';

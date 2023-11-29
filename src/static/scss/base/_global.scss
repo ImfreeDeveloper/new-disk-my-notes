@@ -1,0 +1,72 @@
+html {
+  font-size: 62.5%;
+  //@include md-block() {
+  //  font-size: 52.5%;
+  //}
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+
+  * {
+    box-sizing: inherit;
+  }
+}
+
+body {
+  min-width: 320px;
+  position: relative;
+  color: $color-text;
+  font-size: $baseFontSize;
+  line-height: $baseLineHeight;
+  font-family: $baseFont;
+  font-weight: $normal;
+  background-color: $color-primary;
+}
+
+h1 {
+  font-size: 10.4rem;
+  font-weight: $extraBold;
+  line-height: 10.4rem;
+}
+
+
+strong {
+  font-weight: $bold;
+}
+
+em {
+  font-style: italic;
+}
+
+.hidden {
+  overflow: hidden !important;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  height: 100%;
+}
+
+.content {
+  flex: 1 0 auto;
+}
+
+.container {
+  @include wrapper();
+}
+
+.row {
+  @include row-flex();
+  justify-content: space-between;
+}

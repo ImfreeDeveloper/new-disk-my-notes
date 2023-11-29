@@ -1,0 +1,32 @@
+.header {
+  padding: 4rem 0;
+  &__wrap {
+    @include col();
+    @include size(12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__logo {
+    margin-right: 2.2rem;
+  }
+  &__sign-in {
+  }
+  &__user {
+    display: none;
+    align-items: center;
+    &-email {
+      margin-right: 1.2rem;
+    }
+    &-avatar {
+      width: 5.6rem;
+      height: 5.6rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $color-dark-middle;
+    }
+  }
+}
+
