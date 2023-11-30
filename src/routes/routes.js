@@ -1,4 +1,5 @@
-import Home from '@/templates/views/Index.vue'
+import Index from '@/templates/views/Index.vue'
+import Notes from '@/templates/views/Notes.vue'
 import Error404 from '@/templates/views/Error404.vue'
 
 // import store from '@/store'
@@ -22,7 +23,11 @@ import Error404 from '@/templates/views/Error404.vue'
 export const routes = [
   {
     path: '/',
-    component: Home
+    component: Index
+  },
+  {
+    path: '/notes',
+    component: Notes
   },
   {
     path: '*',

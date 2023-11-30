@@ -10,7 +10,7 @@
         <label :title="label" :class="{filled: value.length}">{{ label }}</label>
         <input
           :type="typeField"
-          :autocomplete="typeField === 'password' ? 'new-password': 'off'"
+          autocomplete="off"
           :placeholder="placeholderText"
           :value="value"
           v-on="inputListeners"
