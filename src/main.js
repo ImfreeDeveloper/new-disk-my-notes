@@ -9,7 +9,11 @@ import App from '@/templates/App.vue'
 
 import MainLayout from '@/templates/layouts/MainLayout.vue'
 
+import Vuelidate from 'vuelidate'
+
 Vue.component('default', MainLayout)
+
+Vue.use(Vuelidate)
 
 /* eslint-disable no-new */
 new Vue({

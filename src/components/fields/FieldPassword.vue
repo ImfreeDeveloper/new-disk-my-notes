@@ -10,7 +10,7 @@
         <label :title="label" :class="{filled: value.length}">{{ label }}</label>
         <input
           :type="typeField"
-          :autocomplete="typeField === 'password' ? 'new-password': 'off'"
+          autocomplete="new-password"
           :placeholder="placeholderText"
           :value="value"
           v-on="inputListeners"
@@ -22,20 +22,9 @@
         />
       </div>
       <div class="field-input__icons">
-        <slot name="selectColor"></slot>
-<!--        <slot name="icon-clear">-->
-<!--          <span-->
-<!--            v-if="value.length && clearable"-->
-<!--            class="field-icon icon-close"-->
-<!--            @click="clearInput"-->
-<!--          >-->
-<!--            <svg><use xlink:href="/images/sprite.svg#i-clear" /></svg>-->
-<!--          </span>-->
-<!--        </slot>-->
-        <slot name="icon-loader"></slot>
-        <slot name="icon-attach"></slot>
-        <slot name="icon-check"></slot>
-        <slot name="tooltip"></slot>
+        <div class="field-input__icons-eye" @click="togglePass">
+          <img :src="`/images/${iconEye}`" alt="Eye" />
+        </div>
       </div>
     </div>
     <div class="field-input__error"
@@ -48,21 +37,29 @@
 
 <script>
 
+// eslint-disable-next-line no-unused-vars
+const EYE_ICON = {
+  SHOW: 'password-show.svg',
+  HIDE: 'password-hide.svg'
+}
+
+const TYPE_FIELD = {
+  PASS: 'password',
+  TXT: 'text'
+}
+
 export default {
   data() {
     return {
-      placeholderText: ''
+      placeholderText: '',
+      iconEye: EYE_ICON.SHOW,
+      typeField: TYPE_FIELD.PASS
     }
   },
   props: {
     label: {
       type: String,
       required: true
-    },
-    typeField: {
-      type: String,
-      required: false,
-      default: 'text'
     },
     placeholder: {
       type: String,
@@ -125,6 +122,20 @@ export default {
   methods: {
     setFocus(isFocus) {
       this.placeholderText = isFocus ? '' : this.placeholder
+    },
+    togglePass() {
+      switch (this.iconEye) {
+        case EYE_ICON.SHOW:
+          this.iconEye = EYE_ICON.HIDE
+          this.typeField = TYPE_FIELD.TXT
+          break
+        case EYE_ICON.HIDE:
+          this.iconEye = EYE_ICON.SHOW
+          this.typeField = TYPE_FIELD.PASS
+          break
+        default:
+          break
+      }
     }
   },
   mounted() {
