@@ -1,0 +1,11 @@
+.form {
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4rem;
+    p {
+      color: $color-gray;
+    }
+  }
+}

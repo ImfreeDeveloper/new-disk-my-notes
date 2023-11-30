@@ -11,6 +11,9 @@
     margin-right: 2.2rem;
   }
   &__sign-in {
+    .btn {
+      min-width: 14rem;
+    }
   }
   &__user {
     display: none;

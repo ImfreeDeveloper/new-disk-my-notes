@@ -70,3 +70,13 @@ em {
   @include row-flex();
   justify-content: space-between;
 }
+
+.link {
+  color: $color-green-light;
+  font-weight: $bold;
+  text-decoration: none;
+  transition: all .3s ease-in-out;
+  &:hover {
+    color: $color-white;
+  }
+}

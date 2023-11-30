@@ -23,10 +23,15 @@
         </div>
       </div>
     </div>
-
+    <Popup />
   </div>
 </template>
 
 <script>
-export default {}
+import Popup from '@components/Popup.vue'
+export default {
+  components: {
+    Popup
+  }
+}
 </script>
