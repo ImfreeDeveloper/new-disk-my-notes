@@ -18,7 +18,7 @@
 
 ::placeholder{color: $color-gray}
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], textarea {
   box-sizing: border-box;
   outline: none;
   border-radius: 3.6rem;
@@ -37,10 +37,43 @@ input[type="text"], input[type="password"] {
   }
 }
 
+.field-textarea {
+  position: relative;
+  textarea {
+    padding-top: 1.6rem;
+    padding-bottom: 1.6rem;
+  }
+  &__label {
+    display: block;
+    color: $color-gray;
+    margin-bottom: .8rem;
+    padding-left: 2.8rem;
+  }
+  &__length {
+    color: $color-gray;
+    position: absolute;
+    bottom: -3rem;
+    right: 2.8rem;
+  }
+}
+
 .field-input {
+  position: relative;
   &-custom {
     margin-bottom: 2.4rem;
     position: relative;
+    &-length {
+      margin-bottom: 5rem;
+    }
+    &-textarea-length {
+      margin-bottom: 7rem;
+    }
+  }
+  &__length {
+    color: $color-gray;
+    position: absolute;
+    bottom: -3.7rem;
+    right: 2.8rem;
   }
   &__wrap {
     label {

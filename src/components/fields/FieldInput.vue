@@ -1,5 +1,7 @@
 <template>
-  <div class="field-input-custom">
+  <div class="field-input-custom"
+    :class="{'field-input-custom-length': showLength}"
+  >
     <div
       class="field-input"
       :class="{
@@ -21,6 +23,7 @@
           required
         />
       </div>
+      <div v-if="showLength" class="field-input__length">{{ currentLength }} / {{ maxLength }}</div>
       <div class="field-input__icons">
         <slot name="selectColor"></slot>
 <!--        <slot name="icon-clear">-->
@@ -90,6 +93,11 @@ export default {
       required: false,
       default: false
     },
+    isShowLength: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     maxLength: {
       type: Number,
       required: false,
@@ -97,6 +105,9 @@ export default {
     }
   },
   computed: {
+    currentLength: function () {
+      return this.value.length
+    },
     inputListeners: function () {
       const vm = this
       return Object.assign({},
@@ -120,6 +131,9 @@ export default {
       } else {
         return this.validErrorText
       }
+    },
+    showLength() {
+      return this.isShowLength && this.maxLength > 0
     }
   },
   methods: {

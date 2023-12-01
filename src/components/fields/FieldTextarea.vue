@@ -1,14 +1,12 @@
 <template>
-  <div class="field-input-custom">
+  <div class="field-input-custom"
+    :class="{'field-input-custom-textarea-length': showLength}"
+  >
     <div
       class="field-textarea"
       :class="{
         'is-danger': validError ? validError.$error : false,
-        'is-focus': isFocus || isHover,
-				'is-active': isFocus
       }"
-      @mouseover="isHover = true"
-      @mouseout="isHover = false"
     >
       <div :title="label" v-if="label" class="field-textarea__label">{{ label }}</div>
       <textarea
@@ -18,9 +16,9 @@
         @focus="resize"
         :placeholder="placeholder"
         :disabled="disabled"
-				:maxLength="maxLength"
-      ></textarea>
-			<div v-if="isShowLength && maxLength > 0" class="field-textarea__length">{{ currentLength }} / {{ maxLength }}</div>
+        :maxLength="maxLength"
+      />
+      <div v-if="showLength" class="field-textarea__length">{{ currentLength }} / {{ maxLength }}</div>
     </div>
     <div class="field-input__error"
       v-if="validError.$error"
@@ -35,11 +33,11 @@ export default {
   props: {
     value: {
       type: [String, Number],
-      default: '',
+      default: ''
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     label: {
       type: String,
@@ -52,26 +50,26 @@ export default {
     },
     autosize: {
       type: Boolean,
-      default: true,
+      default: true
     },
     minHeight: {
       type: [Number],
-      default: null,
+      default: null
     },
     maxHeight: {
       type: [Number],
-      default: null,
+      default: null
     },
     maxLength: {
       type: [Number],
-      default: null,
+      default: null
     },
     validError: {
       type: Object,
       required: false,
       default() {
         return {}
-      },
+      }
     },
     validErrorText: {
       type: String,
@@ -88,8 +86,8 @@ export default {
      */
     important: {
       type: [Boolean, Array],
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
@@ -99,31 +97,29 @@ export default {
       maxHeightScroll: false,
       height: 'auto',
       isFocus: false,
-      isHover: false,
+      isHover: false
     }
   },
   computed: {
     currentLength: function () {
-			return this.value.length
+      return this.value.length
     },
     inputListeners: function () {
-      let vm = this
+      const vm = this
       return Object.assign({}, this.$listeners, {
         input: function (event) {
           vm.$emit('input', event.target.value)
-        },
+        }
       })
     },
-		computedStyles() {
+    computedStyles() {
       if (!this.autosize) return {}
       return {
         resize: !this.isResizeImportant ? 'none' : 'none !important',
         height: this.height,
         overflow: this.maxHeightScroll
           ? 'auto'
-          : !this.isOverflowImportant
-          ? 'hidden'
-          : 'hidden !important',
+          : !this.isOverflowImportant ? 'hidden' : 'hidden !important'
       }
     },
     isResizeImportant() {
@@ -138,6 +134,9 @@ export default {
       const imp = this.important
       return imp === true || (Array.isArray(imp) && imp.includes('height'))
     },
+    showLength() {
+      return this.isShowLength && this.maxLength > 0
+    }
   },
   watch: {
     value(val) {
@@ -147,7 +146,7 @@ export default {
       this.$nextTick(this.resize)
       this.$emit('input', val)
     },
-		minHeight() {
+    minHeight() {
       this.$nextTick(this.resize)
     },
     maxHeight() {
@@ -155,7 +154,7 @@ export default {
     },
     autosize(val) {
       if (val) this.resize()
-    },
+    }
   },
   methods: {
     setFocus(isFocus) {
@@ -168,7 +167,7 @@ export default {
     resize() {
       const important = this.isHeightImportant ? 'important' : ''
       this.height = `auto${important ? ' !important' : ''}`
-			this.$nextTick(() => {
+      this.$nextTick(() => {
         let contentHeight = this.$el.querySelector('textarea').scrollHeight + 1
 
         if (this.minHeight) {
@@ -190,16 +189,13 @@ export default {
       })
 
       return this
-    },
+    }
   },
   created() {
     this.val = this.value
   },
-	mounted() {
-		// if (this.minHeight) {
-		// 	this.$el.querySelector('textarea').style.height = `${this.minHeight}px`
-		// }
+  mounted() {
     this.resize()
-  },
+  }
 }
 </script>

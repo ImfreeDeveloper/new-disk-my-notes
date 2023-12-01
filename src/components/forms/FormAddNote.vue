@@ -2,22 +2,25 @@
   <div class="form">
     <h3>Добавление заметки</h3>
     <field-input
-        label="Название заметки"
-        placeholder="Введите название"
-        v-model="name"
-        :valid-error="$v.name"
-        :valid-error-text="textError.name"
+      label="Название заметки"
+      placeholder="Введите название"
+      v-model="name"
+      :valid-error="$v.name"
+      :valid-error-text="textError.name"
+      :isShowLength="true"
+      :maxLength="100"
     />
     <field-textarea
-        label="Текст заметки"
-        v-model="text"
-        :valid-error="$v.text"
-        :min-height="75"
-        placeholder="Введите текст"
+      label="Текст заметки"
+      v-model="text"
+      :valid-error="$v.text"
+      :min-height="244"
+      :isShowLength="true"
+      :maxLength="500"
+      placeholder="Введите текст"
     />
     <div class="form__footer">
-      <p>У вас есть аккаунт? <a href="#" class="link">Зарегистрируйтесь</a></p>
-      <button class="btn btn-main" @click="send">Зарегистрироваться</button>
+      <button class="btn btn-main" @click="send">Добавить</button>
     </div>
   </div>
 </template>
