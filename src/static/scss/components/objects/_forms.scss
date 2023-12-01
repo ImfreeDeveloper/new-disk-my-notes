@@ -8,4 +8,12 @@
       color: $color-gray;
     }
   }
+  &__error {
+    color: $color-red;
+    border-radius: 4rem;
+    background: rgba(255, 116, 97, 0.10);
+    padding: .8rem 2rem;
+    margin-top: 2rem;
+    display: none;
+  }
 }
