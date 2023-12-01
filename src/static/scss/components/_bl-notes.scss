@@ -1,0 +1,72 @@
+.bl-notes {
+  padding: 4rem 0;
+  .row {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .note {
+    @include col();
+    @include size(4);
+    background-color: $color-secondary;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.2rem 0 1.2rem 1.2rem;
+    box-shadow: 0 1.5rem 1.5rem -1rem rgba(0, 0, 0, 0.40);
+    padding: 0 2.8rem;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-width: 0 4rem 4rem 0;
+      border-style: solid;
+      border-color: $color-primary $color-primary $color-green $color-green;
+      background: $color-green;
+      display: block;
+      width: 0;
+      border-radius: 0 0 0 1rem;
+    }
+    &__title {
+      font-size: 2.4rem;
+      line-height: 1.1;
+      font-weight: $semibold;
+      padding: 2rem 3rem 2rem 0;
+      display: block;
+      position: relative;
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: -2.8rem;
+        bottom: 0;
+        right: -2.8rem;
+        margin: auto;
+        background-color: $color-green;
+        height: .1rem;
+      }
+    }
+    &__text {
+      font-size: 2rem;
+      font-weight: $medium;
+      line-height: 1.6;
+      padding: 2rem 0;
+    }
+    &__remove {
+      font-size: 2rem;
+      font-weight: $medium;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 2rem;
+      justify-content: flex-end;
+      margin-top: 1rem;
+      img {
+        flex-shrink: 0;
+        margin-right: 1.2rem;
+      }
+    }
+  }
+}
+
