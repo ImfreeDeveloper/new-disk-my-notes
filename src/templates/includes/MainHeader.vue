@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-<!--    <Popup />-->
+    <Popup />
   </div>
 </template>
 

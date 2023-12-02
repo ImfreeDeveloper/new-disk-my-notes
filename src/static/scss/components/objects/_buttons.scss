@@ -62,6 +62,18 @@
   &:active {
     background-color: $color-green-dark;
   }
+
+  @include md-block() {
+    right: 2rem;
+    bottom: 3rem;
+  }
+  @include sm-block() {
+    right: 1rem;
+    bottom: 2rem;
+  }
+  @include xs-block() {
+    right: 0.5rem;
+  }
 }
 
 @keyframes spin {

@@ -10,6 +10,19 @@
     .btn {
       margin-left: auto;
     }
+
+    @include sm-block() {
+      flex-direction: column;
+      p {
+        order: 1;
+        text-align: center;
+      }
+      .btn {
+        width: 100%;
+        order: 0;
+        margin-bottom: 1.2rem;
+      }
+    }
   }
   &__error {
     color: $color-red;

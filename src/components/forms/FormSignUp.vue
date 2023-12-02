@@ -25,7 +25,7 @@
         :valid-error-text="textError.passwordRepeat"
     />
     <div class="form__footer">
-      <p>У вас есть аккаунт? <a href="#" class="link">Зарегистрируйтесь</a></p>
+      <p>У вас есть аккаунт? <a href="#" class="link">Войдите</a></p>
       <button class="btn btn-main" @click="send">Зарегистрироваться</button>
     </div>
   </div>
