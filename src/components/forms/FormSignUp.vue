@@ -25,7 +25,7 @@
         :valid-error-text="textError.passwordRepeat"
     />
     <div class="form__footer">
-      <p>У вас есть аккаунт? <a href="#" class="link">Войдите</a></p>
+      <p>У вас есть аккаунт? <a href="#" class="link" @click.prevent="handlerToggle">Войдите</a></p>
       <button class="btn btn-main" @click="send">Зарегистрироваться</button>
     </div>
   </div>
@@ -72,6 +72,9 @@ export default {
     }
   },
   methods: {
+    handlerToggle() {
+      this.$emit('handlerSignInShow')
+    },
     send() {
       this.$v.$touch()
 
@@ -83,7 +86,12 @@ export default {
       // }, 2000)
 
       if (!this.$v.$invalid) {
-        console.log(2222)
+        this.$emit('handlerSend', {
+          typeForm: 'signUp',
+          email: this.email,
+          password: this.password,
+          passwordRepeat: this.passwordRepeat
+        })
       }
     }
 

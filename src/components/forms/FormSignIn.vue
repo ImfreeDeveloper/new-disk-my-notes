@@ -17,7 +17,7 @@
         :valid-error-text="textError.password"
     />
     <div class="form__footer">
-      <p>У вас нет аккаунта? <a href="#" class="link">Зарегистрируйтесь</a></p>
+      <p>У вас нет аккаунта? <a href="#" class="link" @click.prevent="handlerToggle">Зарегистрируйтесь</a></p>
       <button class="btn btn-main" @click="send">Войти</button>
     </div>
     <div class="form__error">
@@ -60,6 +60,9 @@ export default {
     }
   },
   methods: {
+    handlerToggle() {
+      this.$emit('handlerSignUpShow')
+    },
     send() {
       this.$v.$touch()
 
@@ -71,7 +74,11 @@ export default {
       // }, 2000)
 
       if (!this.$v.$invalid) {
-        console.log(2222)
+        this.$emit('handlerSend', {
+          typeForm: 'signIn',
+          email: this.email,
+          password: this.password
+        })
       }
     }
 

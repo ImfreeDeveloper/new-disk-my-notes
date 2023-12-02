@@ -8,7 +8,7 @@
           </a>
           <div class="header__">
             <div class="header__sign-in">
-              <button class="btn btn-main">
+              <button class="btn btn-main" @click="modalShow = true">
                 <img src="/images/login.svg" alt="Вход" />
                 Вход
               </button>
@@ -23,15 +23,31 @@
         </div>
       </div>
     </div>
-    <Popup />
+    <Popup v-model="modalShow">
+      <template #body>
+        <form-sign @handlerSend="send" />
+      </template>
+    </Popup>
   </div>
 </template>
 
 <script>
 import Popup from '@components/Popup.vue'
+import formSign from '@components/forms/FormSign.vue'
 export default {
   components: {
-    Popup
+    Popup,
+    formSign
+  },
+  data() {
+    return {
+      modalShow: false
+    }
+  },
+  methods: {
+    send(obj) {
+      console.log(obj)
+    }
   }
 }
 </script>
