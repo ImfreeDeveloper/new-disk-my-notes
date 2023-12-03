@@ -1,0 +1,37 @@
+$color-loader: $color-secondary;
+
+.loader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: fade-out($color-primary, .2);
+  z-index: 100;
+  &:before {
+    position: relative;
+    content: '';
+    top: 50%;
+    left: 50%;
+    width: 7rem;
+    height: 7rem;
+    display: block;
+    margin: -3.5rem 0 0 -3.5rem;
+    border-radius: 50%;
+    border-top: .3rem solid $color-loader;
+    animation: cb_load 1s linear 1s normal infinite;
+    animation-delay: 0s;
+    transition: opacity .3s ease;
+  }
+}
+
+@keyframes cb_load {
+  0% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(360deg)
+  }
+}

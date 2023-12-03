@@ -1,5 +1,6 @@
 <template>
   <div class="form">
+    <Loader v-if="load"/>
     <h3>Вход в ваш аккаунт</h3>
     <field-input
         label="Email"
@@ -29,14 +30,16 @@
 <script>
 import fieldInput from '@components/fields/FieldInput.vue'
 import fieldPassword from '@components/fields/FieldPassword.vue'
+import Loader from '@components/Loader.vue'
 import { required, minLength, email } from 'vuelidate/lib/validators'
 
 export default {
-  components: { fieldInput, fieldPassword },
+  components: { fieldInput, fieldPassword, Loader },
   data() {
     return {
       email: '',
       password: '',
+      load: false,
       textError: {
         email: {
           required: 'Поле не заполнено',
@@ -66,19 +69,18 @@ export default {
     send() {
       this.$v.$touch()
 
-      // this.isLoading = true
-
-      // setTimeout(() => {
-      // this.isLoading = false
-      // this.$emit('saveHandler', true)
-      // }, 2000)
-
       if (!this.$v.$invalid) {
-        this.$emit('handlerSend', {
-          typeForm: 'signIn',
-          email: this.email,
-          password: this.password
-        })
+        this.load = true
+
+        setTimeout(() => {
+          this.load = false
+          this.$emit('handlerSend', {
+            typeForm: 'signIn',
+            email: this.email,
+            password: this.password
+          })
+          // this.$emit('saveHandler', true)
+        }, 2000)
       }
     }
 
