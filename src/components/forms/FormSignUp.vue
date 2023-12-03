@@ -1,32 +1,44 @@
 <template>
   <div class="form">
-    <h3>Регистрация</h3>
-    <field-input
-        label="Email"
-        placeholder="Введите Email"
-        v-model="email"
-        :valid-error="$v.email"
-        :valid-error-text="textError.email"
-    />
-    <field-password
-        label="Пароль"
-        type-field="password"
-        placeholder="Введите пароль"
-        v-model="password"
-        :valid-error="$v.password"
-        :valid-error-text="textError.password"
-    />
-    <field-password
-        label="Пароль ещё раз"
-        type-field="password"
-        placeholder="Введите пароль ещё раз"
-        v-model="passwordRepeat"
-        :valid-error="$v.passwordRepeat"
-        :valid-error-text="textError.passwordRepeat"
-    />
-    <div class="form__footer">
-      <p>У вас есть аккаунт? <a href="#" class="link" @click.prevent="handlerToggle">Войдите</a></p>
-      <button class="btn btn-main" @click="send">Зарегистрироваться</button>
+    <Loader v-if="load"/>
+    <div class="form__reg" v-if="!isSuccess">
+      <h3>Регистрация</h3>
+      <field-input
+          label="Email"
+          placeholder="Введите Email"
+          v-model="email"
+          :valid-error="$v.email"
+          :valid-error-text="textError.email"
+      />
+      <field-password
+          label="Пароль"
+          type-field="password"
+          placeholder="Введите пароль"
+          v-model="password"
+          :valid-error="$v.password"
+          :valid-error-text="textError.password"
+      />
+      <field-password
+          label="Пароль ещё раз"
+          type-field="password"
+          placeholder="Введите пароль ещё раз"
+          v-model="passwordRepeat"
+          :valid-error="$v.passwordRepeat"
+          :valid-error-text="textError.passwordRepeat"
+      />
+      <div class="form__footer">
+        <p>У вас есть аккаунт? <a href="#" class="link" @click.prevent="handlerToggle">Войдите</a></p>
+        <button class="btn btn-main" @click="send">Зарегистрироваться</button>
+      </div>
+      <div class="form__error" v-if="validErrorAPI.isError">
+        <p v-html="validErrorAPI.message"></p>
+      </div>
+    </div>
+    <div class="form__success" v-else>
+      <h3>Успешная регистрация</h3>
+      <div class="form__footer">
+        <button class="btn btn-main" @click="handlerToggle">Войти</button>
+      </div>
     </div>
   </div>
 </template>
@@ -35,11 +47,15 @@
 import fieldInput from '@components/fields/FieldInput.vue'
 import fieldPassword from '@components/fields/FieldPassword.vue'
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators'
+import authApi from '@/api/auth'
+import Loader from '@components/Loader.vue'
 
 export default {
-  components: { fieldInput, fieldPassword },
+  components: { Loader, fieldInput, fieldPassword },
   data() {
     return {
+      load: false,
+      isSuccess: false,
       email: '',
       password: '',
       passwordRepeat: '',
@@ -50,11 +66,15 @@ export default {
         },
         password: {
           required: 'Поле не заполнено',
-          minLength: 'Минимум 3 символа'
+          minLength: 'Минимум 4 символа'
         },
         passwordRepeat: {
           sameAsPassword: 'Пароли не совпадают'
         }
+      },
+      validErrorAPI: {
+        isError: false,
+        message: ''
       }
     }
   },
@@ -65,7 +85,7 @@ export default {
     },
     password: {
       required,
-      minLength: minLength(3)
+      minLength: minLength(4)
     },
     passwordRepeat: {
       sameAsPassword: sameAs('password')
@@ -75,24 +95,46 @@ export default {
     handlerToggle() {
       this.$emit('handlerSignInShow')
     },
-    send() {
+    async send() {
       this.$v.$touch()
 
-      // this.isLoading = true
-
-      // setTimeout(() => {
-      // this.isLoading = false
-      // this.$emit('saveHandler', true)
-      // }, 2000)
-
       if (!this.$v.$invalid) {
-        this.$emit('handlerSend', {
-          typeForm: 'signUp',
+        this.load = true
+
+        const payload = {
           email: this.email,
           password: this.password,
-          passwordRepeat: this.passwordRepeat
-        })
+          confirm_password: this.passwordRepeat
+        }
+
+        try {
+          await authApi.register(payload)
+
+          setTimeout(() => {
+            this.validErrorAPI.isError = false
+            this.validErrorAPI.message = ''
+
+            this.load = false
+            this.isSuccess = true
+          }, 600)
+        } catch (e) {
+          setTimeout(() => {
+            this.validErrorAPI.isError = true
+
+            if (e?.response?.data?.message) {
+              this.validErrorAPI.message = this.getErrorMessage(e.response.data.message)
+            } else {
+              this.validErrorAPI.message = 'Ошибка регистрации'
+            }
+
+            this.isSuccess = false
+            this.load = false
+          }, 600)
+        }
       }
+    },
+    getErrorMessage(message) {
+      return Array.isArray(message) ? message.join('<br />') : message
     }
 
   }

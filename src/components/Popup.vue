@@ -4,7 +4,6 @@
       <div class="modal-popup-container">
         <div class="modal-popup-body" @click.stop>
           <slot name="body"></slot>
-<!--          <form-add-note />-->
           <span class="modal-popup-close" @click="$emit('input', false)"></span>
         </div>
       </div>
@@ -13,12 +12,7 @@
 </template>
 
 <script>
-
-import formAddNote from '@components/forms/FormAddNote.vue'
 export default {
-  components: {
-    formAddNote
-  },
   props: {
     value: {
       type: Boolean,
