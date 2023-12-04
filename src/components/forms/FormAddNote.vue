@@ -74,24 +74,6 @@ export default {
           title: this.name,
           content: this.text
         })
-        // try {
-        //   await appApi.createNote({
-        //     title: this.name,
-        //     content: this.text
-        //   })
-        //
-        // } catch (e) {
-        //   setTimeout(() => {
-        //     this.validErrorAPI.isError = true
-        //
-        //     if (e?.response?.data?.message) {
-        //       this.validErrorAPI.message = this.getErrorMessage(e.response.data.message)
-        //     } else {
-        //       this.validErrorAPI.message = 'Ошибка входа'
-        //     }
-        //     this.load = false
-        //   }, 600)
-        // }
       }
     }
 

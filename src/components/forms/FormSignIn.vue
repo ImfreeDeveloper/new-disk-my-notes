@@ -74,25 +74,6 @@ export default {
     async send() {
       this.$v.$touch()
 
-      // if (!this.$v.$invalid) {
-      //   this.load = true
-      //
-      //   setTimeout(() => {
-      //     this.load = false
-      //     this.$emit('handlerSend', {
-      //       typeForm: 'signIn',
-      //       email: this.email,
-      //       password: this.password
-      //     })
-      //     // this.$emit('saveHandler', true)
-      //   }, 2000)
-      //
-      //
-      //
-      //
-      //
-      //   this.$store.dispatch(actionTypes.login, objParams)
-      // }
       if (!this.$v.$invalid) {
         this.load = true
 
@@ -134,7 +115,6 @@ export default {
     getErrorMessage(message) {
       return Array.isArray(message) ? message.join('<br />') : message
     }
-
   }
 }
 </script>

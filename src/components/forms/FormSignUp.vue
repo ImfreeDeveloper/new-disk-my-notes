@@ -136,7 +136,6 @@ export default {
     getErrorMessage(message) {
       return Array.isArray(message) ? message.join('<br />') : message
     }
-
   }
 }
 </script>

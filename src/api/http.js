@@ -1,11 +1,9 @@
 import axios from 'axios'
 import LS from '@/helpers/localStorage'
-// import { errorAccess } from '@/helpers/utils'
 
 const baseURL = 'https://dist.nd.ru/api/'
 
 axios.defaults.baseURL = baseURL
-
 axios.interceptors.request.use(config => {
   const token = getToken()
 
@@ -20,18 +18,6 @@ axios.interceptors.request.use(config => {
 
   return config
 })
-
-// axios.interceptors.response.use(
-//   res => {
-//     errorAccess(res.data)
-//     return res
-//   },
-//   error => {
-//     errorAccess(error.response.data)
-//     return Promise.reject(error)
-//   }
-// )
-
 export default axios
 
 function getToken() {

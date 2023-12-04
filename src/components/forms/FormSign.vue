@@ -34,20 +34,6 @@ export default {
     handlerSend(obj) {
       this.$emit('handlerSend', obj)
     }
-    // send() {
-    //   this.$v.$touch()
-    //
-    //   // this.isLoading = true
-    //
-    //   // setTimeout(() => {
-    //   // this.isLoading = false
-    //   // this.$emit('saveHandler', true)
-    //   // }, 2000)
-    //
-    //   if (!this.$v.$invalid) {
-    //     console.log(2222)
-    //   }
-    // }
   }
 }
 </script>

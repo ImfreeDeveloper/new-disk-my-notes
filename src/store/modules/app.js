@@ -14,8 +14,7 @@ export const mutationTypes = {
 }
 
 export const actionTypes = {
-  init: '[app] init',
-  initRouting: '[app] init routing'
+  init: '[app] init'
 }
 
 export const getterTypes = {
@@ -31,19 +30,16 @@ const getters = {
 const mutations = {
   [mutationTypes.initStart](state) {
     state.isLoading = true
-    state.validationErrors = null
   },
   [mutationTypes.initSuccess](state, payload) {
     state.isLoading = false
   },
   [mutationTypes.initFailure](state, payload) {
     state.isLoading = false
-    state.validationErrors = payload
   }
 }
 
 const actions = {
-
   async [actionTypes.init]({ commit }) {
     const user = LS.getUser()
 

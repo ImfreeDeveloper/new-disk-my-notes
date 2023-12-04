@@ -91,9 +91,7 @@ export default {
   },
   data() {
     return {
-      // data property for v-model binding with real textarea tag
       val: null,
-      // works when content height becomes more then value of the maxHeight property
       maxHeightScroll: false,
       height: 'auto',
       isFocus: false,
