@@ -1,15 +1,21 @@
-// import http from '@/api/http'
-//
-// const cities = async () => {
-//   let { data } = await http.get('account/cities')
-//   return data
-// }
-// const saveCity = async (params) => {
-//   let { data } = await http.post('account/save/city', params)
-//   return data
-// }
-//
-// export default {
-//   cities,
-//   saveCity
-// }
+import http from '@/api/http'
+
+const noteList = async () => {
+  const { data } = await http.get('/notes')
+  return data
+}
+const createNote = async (params) => {
+  const { data } = await http.post('/notes', params)
+  return data
+}
+
+const deleteNote = async (id) => {
+  const { data } = await http.delete(`/notes/${id}`)
+  return data
+}
+
+export default {
+  noteList,
+  createNote,
+  deleteNote
+}

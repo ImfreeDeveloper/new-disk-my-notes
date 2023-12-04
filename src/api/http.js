@@ -9,7 +9,12 @@ axios.defaults.baseURL = baseURL
 axios.interceptors.request.use(config => {
   const token = getToken()
 
-  if (token && ((config.method === 'post') || config.url === '/auth')) {
+  if (token && ((config.method === 'post') ||
+      config.method === 'delete' ||
+      config.url === '/auth' ||
+      config.url === '/notes'
+  )
+  ) {
     config.headers.Authorization = token
   }
 

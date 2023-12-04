@@ -1,5 +1,6 @@
 <template>
   <div class="form">
+    <Loader v-if="load"/>
     <h3>Добавление заметки</h3>
     <field-input
       label="Название заметки"
@@ -22,6 +23,9 @@
     <div class="form__footer">
       <button class="btn btn-main" @click="send">Добавить</button>
     </div>
+    <div class="form__error" v-if="validErrorAPI.isError">
+      <p v-html="validErrorAPI.message"></p>
+    </div>
   </div>
 </template>
 
@@ -29,50 +33,82 @@
 import fieldInput from '@components/fields/FieldInput.vue'
 import FieldTextarea from '@components/fields/FieldTextarea.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
+import Loader from '@components/Loader.vue'
+import appApi from '@/api/app'
 
 export default {
-  components: { fieldInput, FieldTextarea },
+  components: {
+    Loader,
+    fieldInput,
+    FieldTextarea
+  },
   data() {
     return {
       name: '',
       text: '',
+      load: false,
       textError: {
         name: {
           required: 'Поле не заполнено',
-          minLength: 'Минимум 3 символа'
+          minLength: 'Минимум 4 символа'
+        },
+        text: {
+          required: 'Поле не заполнено',
+          minLength: 'Минимум 4 символа'
         }
+      },
+      validErrorAPI: {
+        isError: false,
+        message: ''
       }
     }
   },
   validations: {
     name: {
       required,
-      minLength: minLength(3)
+      minLength: minLength(4)
     },
     text: {
       required,
-      minLength: minLength(3)
+      minLength: minLength(4)
     }
   },
   methods: {
-    send() {
+    async send() {
       this.$v.$touch()
 
-      // this.isLoading = true
-
-      // setTimeout(() => {
-      // this.isLoading = false
-      // this.$emit('saveHandler', true)
-      // }, 2000)
-
-
-      // {
-      //   "title": "Моя заметка",
-      //     "content": "Сегодня эмо-сходка на Трубной"
-      // }
       if (!this.$v.$invalid) {
-        console.log(2222)
+        this.load = true
+
+        try {
+          await appApi.createNote({
+            title: this.name,
+            content: this.text
+          })
+          setTimeout(() => {
+            this.$emit('handlerSend')
+
+            this.validErrorAPI.isError = false
+            this.validErrorAPI.message = ''
+
+            this.load = false
+          }, 600)
+        } catch (e) {
+          setTimeout(() => {
+            this.validErrorAPI.isError = true
+
+            if (e?.response?.data?.message) {
+              this.validErrorAPI.message = this.getErrorMessage(e.response.data.message)
+            } else {
+              this.validErrorAPI.message = 'Ошибка входа'
+            }
+            this.load = false
+          }, 600)
+        }
       }
+    },
+    getErrorMessage(message) {
+      return Array.isArray(message) ? message.join('<br />') : message
     }
 
   }
