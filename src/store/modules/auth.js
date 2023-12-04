@@ -1,7 +1,5 @@
-import authApi from '@/api/auth'
 import LS from '@/helpers/localStorage'
 import router from '@/routes'
-import { mutationTypes as mutationTypesApp } from '@/store/modules/app'
 
 const state = {
   isLoggedIn: false,

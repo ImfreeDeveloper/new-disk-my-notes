@@ -1,6 +1,5 @@
 <template>
   <div class="form">
-    <Loader v-if="load"/>
     <h3>Добавление заметки</h3>
     <field-input
       label="Название заметки"
@@ -23,9 +22,6 @@
     <div class="form__footer">
       <button class="btn btn-main" @click="send">Добавить</button>
     </div>
-    <div class="form__error" v-if="validErrorAPI.isError">
-      <p v-html="validErrorAPI.message"></p>
-    </div>
   </div>
 </template>
 
@@ -33,12 +29,8 @@
 import fieldInput from '@components/fields/FieldInput.vue'
 import FieldTextarea from '@components/fields/FieldTextarea.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
-import Loader from '@components/Loader.vue'
-import appApi from '@/api/app'
-
 export default {
   components: {
-    Loader,
     fieldInput,
     FieldTextarea
   },
@@ -78,37 +70,29 @@ export default {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        this.load = true
-
-        try {
-          await appApi.createNote({
-            title: this.name,
-            content: this.text
-          })
-          setTimeout(() => {
-            this.$emit('handlerSend')
-
-            this.validErrorAPI.isError = false
-            this.validErrorAPI.message = ''
-
-            this.load = false
-          }, 600)
-        } catch (e) {
-          setTimeout(() => {
-            this.validErrorAPI.isError = true
-
-            if (e?.response?.data?.message) {
-              this.validErrorAPI.message = this.getErrorMessage(e.response.data.message)
-            } else {
-              this.validErrorAPI.message = 'Ошибка входа'
-            }
-            this.load = false
-          }, 600)
-        }
+        this.$emit('handlerSend', {
+          title: this.name,
+          content: this.text
+        })
+        // try {
+        //   await appApi.createNote({
+        //     title: this.name,
+        //     content: this.text
+        //   })
+        //
+        // } catch (e) {
+        //   setTimeout(() => {
+        //     this.validErrorAPI.isError = true
+        //
+        //     if (e?.response?.data?.message) {
+        //       this.validErrorAPI.message = this.getErrorMessage(e.response.data.message)
+        //     } else {
+        //       this.validErrorAPI.message = 'Ошибка входа'
+        //     }
+        //     this.load = false
+        //   }, 600)
+        // }
       }
-    },
-    getErrorMessage(message) {
-      return Array.isArray(message) ? message.join('<br />') : message
     }
 
   }

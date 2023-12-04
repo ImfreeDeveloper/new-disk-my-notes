@@ -49,13 +49,15 @@ export default {
     addNote() {
       this.modalShow = true
     },
-    async send() {
+    async send(obj) {
+      this.modalShow = false
+      this.load = true
+
       try {
+        await appApi.createNote(obj)
         await this.getList()
-
-        this.modalShow = false
       } catch (e) {
-
+        this.load = false
       }
     },
     async getList() {
@@ -73,13 +75,11 @@ export default {
       }
     },
     async handlerDelete(id) {
-      this.load = true
+      // eslint-disable-next-line eqeqeq
+      this.notes = this.notes.filter(note => note.id != id)
       try {
         await appApi.deleteNote(id)
-        await this.getList()
-      } catch (e) {
-        this.load = false
-      }
+      } catch (e) {}
     }
   },
   async mounted() {
