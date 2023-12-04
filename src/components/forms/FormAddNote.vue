@@ -65,6 +65,11 @@ export default {
       // this.$emit('saveHandler', true)
       // }, 2000)
 
+
+      // {
+      //   "title": "Моя заметка",
+      //     "content": "Сегодня эмо-сходка на Трубной"
+      // }
       if (!this.$v.$invalid) {
         console.log(2222)
       }

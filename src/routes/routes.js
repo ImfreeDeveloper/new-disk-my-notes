@@ -22,10 +22,12 @@ import Error404 from '@/templates/views/Error404.vue'
 
 export const routes = [
   {
+    name: 'home',
     path: '/',
     component: Index
   },
   {
+    name: 'notes',
     path: '/notes',
     component: Notes
   },

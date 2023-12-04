@@ -1,7 +1,10 @@
-// import appApi from '@/api/app'
-// import { unnecessaryRoutes, getURLParameters } from '@/helpers/utils'
+import appAuth from '@/api/auth'
+import router from '@/routes'
+import LS from '@/helpers/localStorage'
+import { mutationTypes as mutationTypesAuth } from '@/store/modules/auth'
 
 const state = {
+  isLoading: false
 }
 
 export const mutationTypes = {
@@ -40,36 +43,36 @@ const mutations = {
 }
 
 const actions = {
-  async [actionTypes.init]({ getters, commit, dispatch }) {
+
+  async [actionTypes.init]({ commit }) {
+    const user = LS.getUser()
+
+    if (!user?.accessToken) return
+
     commit(mutationTypes.initStart)
     try {
-      // url params
-      // const urlParams = getURLParameters(window.location.href)
-      // commit(mutationTypes.setUrlParams, urlParams)
-      // // user
-      // dispatch(actionTypesAuth.getCurrentUser)
-      // // load cities
-      // await dispatch(actionTypesCity.loadCities)
-      // const currentUser = getters[getterTypesAuth.currentUser]
-      // if (currentUser) {
-      //   const { limited = null } = urlParams
-      //   if (limited) {
-      //     appApi.saveLimited({
-      //       user_id: currentUser.id,
-      //       token: currentUser.token,
-      //       limited
-      //     })
-      //   }
-      //
-      //   dispatch(actionTypesMessage.init, { user_id: currentUser.id })
-      // }
-      // // routing
-      // const resultsRoutes = await dispatch(actionTypes.initRouting)
-      // setTimeout(() => {
-      //   commit(mutationTypes.initSuccess, resultsRoutes)
-      // }, 300)
+      const data = await appAuth.loginCheck()
+
+      setTimeout(() => {
+        commit(mutationTypes.initSuccess)
+
+        commit(mutationTypesAuth.loginSuccess, {
+          email: data.email,
+          accessToken: user.accessToken
+        })
+
+        if (router.currentRoute.name !== 'notes') {
+          router.push({ name: 'notes' })
+        }
+      }, 600)
     } catch (error) {
-      commit(mutationTypes.initFailure, error)
+      setTimeout(() => {
+        if (router.currentRoute.name !== 'home') {
+          router.push({ name: 'home' })
+        }
+
+        commit(mutationTypes.initFailure, error)
+      }, 600)
     }
   }
 }

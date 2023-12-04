@@ -49,9 +49,7 @@ export const actionTypes = {
 export const getterTypes = {
   currentUser: '[auth] currentUser',
   isLoggedIn: '[auth] isLoggedIn',
-  isAnonymous: '[auth] isAnonymous',
-  validationErrors: '[auth] validationErrors',
-  step: '[auth] step'
+  validationErrors: '[auth] validationErrors'
 }
 
 const getters = {
@@ -61,51 +59,24 @@ const getters = {
   [getterTypes.isLoggedIn]: state => {
     return Boolean(state.isLoggedIn)
   },
-  [getterTypes.isAnonymous]: state => {
-    return !state.isLoggedIn
-  },
-  [getterTypes.step]: state => {
-    return state.step
-  },
   [getterTypes.validationErrors]: state => {
     return state.validationErrors
   }
 }
 
 const mutations = {
-  [mutationTypes.registerStart](state) {
-    state.validationErrors = null
-  },
-  [mutationTypes.registerFailure](state, payload) {
-    state.validationErrors = payload
-  },
   [mutationTypes.loginStart](state) {
     state.validationErrors = null
   },
-  [mutationTypes.saveDataUserStart](state) {
-    state.validationErrors = null
-  },
-  [mutationTypes.saveDataUserSuccess](state, payload) {
-    state.currentUser = {
-      ...state.currentUser,
-      ...payload
-    }
-  },
-  [mutationTypes.saveDataUser](state, payload) {
-    state.currentUser = {
-      ...state.currentUser,
-      ...payload
-    }
-  },
-  [mutationTypes.saveDataUserFailure](state, payload) {
-    state.validationErrors = payload
-  },
   [mutationTypes.loginSuccess](state, payload) {
-    state.isLoggedIn = true
-    state.currentUser = {
+    const currentUser = {
       ...state.currentUser,
       ...payload
     }
+    state.isLoggedIn = true
+    state.currentUser = currentUser
+
+    LS.setUser(currentUser)
   },
   [mutationTypes.loginFailure](state, payload) {
     state.validationErrors = payload
@@ -113,9 +84,6 @@ const mutations = {
 
   [mutationTypes.deleteAccountStart](state) {
     state.validationErrors = null
-  },
-  [mutationTypes.deleteAccountFailure](state, payload) {
-    state.validationErrors = payload
   },
 
   [mutationTypes.getCurrentUserStart](state) {
@@ -131,112 +99,19 @@ const mutations = {
     state.isLoggedIn = false
     state.currentUser = null
   },
-  [mutationTypes.authStep](state, payload) {
-    state.step = payload
-  },
   [mutationTypes.logout](state) {
     state.isLoggedIn = false
     state.currentUser = null
-    state.messages = []
-    state.unreaded = null
   }
 }
 
 const actions = {
-  async [actionTypes.register]({ state, commit }, payload) {
-    commit(mutationTypes.registerStart)
-    try {
-      const data = await authApi.register(payload)
-      if (data.success) {
-        setTimeout(() => {
-          commit(mutationTypes.registerSuccess, payload)
-        }, 600)
-      } else {
-        // this.validErrorPhoneAPI = {
-        //   isError: true,
-        //   message: data.error,
-        //   phoneError: this.phone
-        // }
-        commit(mutationTypes.registerFailure, data.error)
-      }
-    } catch (error) {
-      commit(mutationTypes.registerFailure, error)
-    }
-  },
-  // async [actionTypes.login]({ commit, dispatch }, payload) {
-  //   commit(mutationTypes.loginStart)
-  //   try {
-  //     const data = await authApi.login(payload)
-  //     if (data.success) {
-  //       commit(mutationTypes.loginSuccess, {
-  //         ...data.results,
-  //         ...payload
-  //       })
-  //       Cookies.set('c_auth', `${payload.phone}_${payload.token}`, {
-  //         expires: 3
-  //       })
-  //       LS.setUser(state.currentUser)
-  //       dispatch(actionTypesCity.loadCityCurrentUser)
-  //       router.push({ name: 'account' })
-  //     } else {
-  //       commit(mutationTypes.loginFailure, data.error)
-  //     }
-  //   } catch (error) {
-  //     commit(mutationTypes.loginFailure, error)
-  //   }
-  // },
-  async [actionTypes.deleteAccount]({ commit, dispatch }, payload) {
-    commit(mutationTypes.deleteAccountStart)
-    try {
-      const data = await authApi.deleteAccount(payload)
-      if (data.success) {
-        commit(mutationTypes.deleteAccountSuccess)
-        dispatch(actionTypes.logout)
-      } else {
-        commit(mutationTypes.deleteAccountFailure, data.error)
-      }
-    } catch (error) {
-      commit(mutationTypes.deleteAccountFailure, error)
-    }
-  },
-  async [actionTypes.saveDataUser]({ commit }, payload) {
-    commit(mutationTypes.saveDataUserStart)
-    try {
-      const data = await authApi.saveDataUser(payload)
-      if (data.success) {
-        commit(mutationTypes.saveDataUserSuccess, {
-          firstname: payload.first_name,
-          lastname: payload.last_name,
-          middlename: payload.middle_name,
-          fill_percent: data.results.fill_percent,
-          ...payload
-        })
-        LS.setUser(state.currentUser)
-      } else {
-        commit(mutationTypes.saveDataUserFailure, data.error)
-      }
-      return data
-    } catch (error) {
-      commit(mutationTypes.saveDataUserFailure, error)
-    }
-  },
-  // [actionTypes.getCurrentUser]({ commit }) {
-  //   const userCurrent = LS.getUser()
-  //   // commit(mutationTypes.getCurrentUserStart)
-  //   if (userCurrent && userCurrent.token) {
-  //     commit(
-  //       mutationTypes.getCurrentUserSuccess,
-  //       userCurrent
-  //     )
-  //   }
-  // },
   [actionTypes.logout]({ commit }) {
-    commit(mutationTypesApp.initStart)
     commit(mutationTypes.logout)
     LS.clear()
     history.pushState(null, null, '/')
-    router.push({ name: 'auth' })
-    location.reload()
+    router.push({ name: 'home' })
+    // location.reload()
   }
 }
 

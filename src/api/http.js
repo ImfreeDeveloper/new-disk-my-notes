@@ -8,9 +8,11 @@ axios.defaults.baseURL = baseURL
 
 axios.interceptors.request.use(config => {
   const token = getToken()
-  if (token && (config.method === 'post')) {
+
+  if (token && ((config.method === 'post') || config.url === '/auth')) {
     config.headers.Authorization = token
   }
+
   return config
 })
 
@@ -29,6 +31,6 @@ export default axios
 
 function getToken() {
   const userCurrent = LS.getUser()
-  const token = userCurrent ? userCurrent.api_token || '' : ''
+  const token = userCurrent ? userCurrent.accessToken || '' : ''
   return token ? `Bearer ${token}` : ''
 }

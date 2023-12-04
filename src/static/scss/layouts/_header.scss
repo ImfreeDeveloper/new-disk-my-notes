@@ -16,12 +16,14 @@
     }
   }
   &__user {
-    display: none;
+    display: flex;
     align-items: center;
+    position: relative;
     &-email {
       margin-right: 1.2rem;
     }
     &-avatar {
+      cursor: pointer;
       width: 5.6rem;
       height: 5.6rem;
       border-radius: 50%;
@@ -29,6 +31,40 @@
       align-items: center;
       justify-content: center;
       background-color: $color-dark-middle;
+    }
+    &-logout {
+      position: absolute;
+      top: 8rem;
+      right: 0;
+      background-color: $color-dark-middle;
+      border-radius: 1.2rem;
+      box-shadow: 0 1.5rem 4.6rem -1rem rgba(0, 0, 0, 0.60);
+      z-index: 1;
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -1rem;
+        right: 2rem;
+        margin: auto;
+        width: 0;
+        height: 0;
+        border-left: 1rem solid transparent;
+        border-right: 1rem solid transparent;
+        border-bottom: 1rem solid $color-dark-middle;
+      }
+      p {
+        font-size: 1.8rem;
+        font-weight: $bold;
+        padding: 4rem;
+        color: $color-secondary;
+        cursor: pointer;
+        transition: all .3s ease-in-out;
+        &:hover {
+          color: $color-white;
+        }
+      }
     }
   }
 }
